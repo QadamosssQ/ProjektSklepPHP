@@ -1,0 +1,2 @@
+# ProjektSklepPHP
+Projekt sklepu
