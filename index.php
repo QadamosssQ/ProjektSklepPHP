@@ -31,7 +31,7 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
+                <button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="src/php/login.php">Login</a> </button>
 
             </div>
         </div>
@@ -201,5 +201,5 @@
 
 
 </body>
-<script src="src/main.js"></script>
+<script src="src/js/main.js"></script>
 
