@@ -37,7 +37,7 @@ span {
     font-size: 12px;
 }
 
-a {
+.a_log {
     color: #333;
     font-size: 14px;
     text-decoration: none;
@@ -160,9 +160,10 @@ input {
 }
 
 .overlay {
-    background: #FF416C;
-    background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-    background: linear-gradient(to right, #FF4B2B, #FF416C);
+    background: #3b5998;
+    /*background: -webkit-linear-gradient(to right, #284a8a, #6091ff;*/
+    background: linear-gradient(to right, #284a8a, #6091ff);
+
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -173,6 +174,7 @@ input {
     width: 200%;
     transform: translateX(0);
     transition: transform 0.6s ease-in-out;
+
 }
 
 .container.right-panel-active .overlay {
@@ -252,7 +254,7 @@ footer a {
 }
 
 .btn_sign{
-    background-color: #FF4B2B;
+    background-color: #3b5998;
     color: #FFFFFF;
     font-size: 12px;
     font-weight: bold;
@@ -261,6 +263,65 @@ footer a {
     text-transform: uppercase;
     transition: transform 80ms ease-in;
     border-radius: 20px;
-    border: 1px solid #FF4B2B;
+    border: 1px solid #3b5998;
 }
+
+.no_show{
+    display: none;
+}
+
+
+
+.exist, .exist2, .h3_error{
+
+
+
+    color: #3b5998;
+    text-wrap: none;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    text-shadow: #cccccc 0px 0px 10px;
+    background-color: #cccccc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 2%;
+
+    animation: blinker 1s linear 2 forwards;
+
+
+
+
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+
+
+
+.neon{
+/*make a blue neon*/
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

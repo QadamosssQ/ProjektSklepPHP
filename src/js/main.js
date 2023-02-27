@@ -10,3 +10,8 @@ searchButton.addEventListener('click', () => {
     alert(inputValue);
 
 });
+
+
+
+
+

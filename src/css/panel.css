@@ -1,0 +1,154 @@
+.login_button{
+
+    text-decoration: none;
+}
+
+.title{
+    margin-top: 7%;
+
+}
+
+.content_h3{
+
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.content_h3_success{
+
+        display: flex;
+        justify-content: center;
+        margin-top: 5%;
+        color: green;
+
+    /*add animation to focus a little bit more on the success message*/
+    animation: blinker 1s linear 2 forwards;
+
+
+
+
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+
+
+
+.submit_container{
+    display: flex;
+    justify-content: center;
+
+}
+
+.link{
+    text-decoration: none;
+    text-align: center;
+}
+
+.inp{
+    width: 100%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+table{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+
+
+
+}
+
+td{
+    border: 1px solid #000000;
+    padding: 10px;
+    text-align: center;
+}
+
+tr{
+    border: 1px solid #000000;
+    padding: 10px;
+    text-align: center;
+
+}
+
+.link_de{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.product{
+    border: black solid 1px;
+}
+
+
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+.no_show{
+    display: none;
+}
+
+
+
+
+.exist, .exist2, .h3_error{
+
+    text-align: center;
+
+    color: #ff0000;
+    text-wrap: none;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    text-shadow: #cccccc 0px 0px 10px;
+    background-color: #cccccc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 2%;
+
+    animation: blinker 1s linear 2 forwards;
+
+
+
+
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+

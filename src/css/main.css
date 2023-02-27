@@ -90,3 +90,6 @@ body{
     text-decoration: none;
 }
 
+.error{
+    border: #FF416C solid 2px;
+}

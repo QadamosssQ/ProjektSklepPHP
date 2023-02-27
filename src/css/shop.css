@@ -1,0 +1,29 @@
+.container_card{
+    margin-top: 10%;
+}
+
+.price_h, .text-success{
+
+    margin-left: 30%;
+}
+
+.text-justify{
+    inline-size: 90%
+}
+
+.price_n{
+
+    margin-left: 30%;
+}
+.login_button{
+    text-decoration: none;
+}
+
+ #card_border{
+     border: 1px solid #969696;
+     border-radius: 10px;
+     /*background-color: #3b5998;*/
+     /*color: #cccccc;*/
+
+}
+

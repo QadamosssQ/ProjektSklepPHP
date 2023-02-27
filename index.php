@@ -21,7 +21,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
                 <li><a href="src/php/shop.php" class="nav-link px-2 text-white">Sklep</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
+                <li><a href="src/php/panel.php" class="nav-link px-2 text-white">Panel</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">About</a></li>
             </ul>
@@ -31,7 +31,21 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="src/php/login.php">Login</a> </button>
+
+
+
+                <?php
+
+                require "src/php/conn.php";
+
+                if(empty($_SESSION["id"])) {
+                    echo '<button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="src/php/login.php">Login</a> </button>';
+                }else{
+                    echo '<button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="src/php/logout.php">Logout</a> </button>';
+                }
+
+
+                ?>
 
             </div>
         </div>
