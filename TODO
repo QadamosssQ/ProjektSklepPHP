@@ -2,17 +2,41 @@
 2. Zrobić strone z produktami i wyszukiwaniem
 3. Zrobić koszyk
 4. Zrobić formularz zamówienia
-
-
 9. Zrobić panel resetowania hasła
 
 
 
-1. Walidacja maila i hasla do sql injection
+
+
+
+- system wyszukiwania produktów/ userów
+
+- dokończ koszyk
+
+- zrób stronę inspekcji pojedyńczego produktu
 
 
 
 
+- Kod do koszyka:
 
-3. system wyszukiwania produktów/ userów
+<?php
 
+setcookie('my_array[0]', 'zero' , time()+3600);
+setcookie('my_array[1]', 'jeden' , time()+3600);
+setcookie('my_array[2]', 'dwa' , time()+3600);
+setcookie('my_array[3]', 'trzy' , time()+3600);
+
+echo '<pre>';
+// print_r( $_COOKIE["my_array"][1] );
+
+
+
+for($i=0; $i<count($_COOKIE["my_array"]); $i++){
+    echo $_COOKIE["my_array"][$i];
+}
+
+
+
+
+zrobić koszyk (tak by ktoś nie kupił już sprzedanego produktu) obliczanie przychodu marży panel właściciela

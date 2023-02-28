@@ -29,7 +29,7 @@ require_once "conn.php"; ?>
                     <li><a href="../../index.php" class="nav-link px-2  text-white  ">Home</a></li>
                     <li><a href="shop.php" class="nav-link px-2 text-white">Sklep</a></li>
                     <li><a href="#" class="nav-link px-2 text-secondary">Panel</a></li>
-
+                    <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
                 </ul>
 
 

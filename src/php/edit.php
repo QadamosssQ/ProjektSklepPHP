@@ -43,8 +43,8 @@ $result = mysqli_query($conn, $query);
                 <li><a href="../../index.php" class="nav-link px-2  text-white  ">Home</a></li>
                 <li><a href="shop.php" class="nav-link px-2 text-white">Sklep</a></li>
                 <li><a href="panel.php" class="nav-link px-2 text-secondary">Panel</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
+
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">

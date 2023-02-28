@@ -93,3 +93,10 @@ body{
 .error{
     border: #FF416C solid 2px;
 }
+
+.username{
+    margin-left: 2%;
+    margin-top: 1%;
+    font-size: 1.5em;
+    margin-bottom: 1%;
+}

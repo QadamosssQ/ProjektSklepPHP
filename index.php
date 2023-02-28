@@ -22,8 +22,7 @@
                 <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
                 <li><a href="src/php/shop.php" class="nav-link px-2 text-white">Sklep</a></li>
                 <li><a href="src/php/panel.php" class="nav-link px-2 text-white">Panel</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="src/php/cart.php" class="nav-link px-2 text-white">Cart</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
@@ -48,6 +47,9 @@
                 ?>
 
             </div>
+            <p class="username">  <?php
+                require "src/php/show_name.php";
+                ?></p>
         </div>
     </div>
 </header>

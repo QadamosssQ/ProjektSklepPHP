@@ -30,8 +30,7 @@ if (empty($_SESSION["id"])) {
                 <li><a href="../../index.php" class="nav-link px-2  text-white  ">Home</a></li>
                 <li><a href="shop.php" class="nav-link px-2 text-white">Sklep</a></li>
                 <li><a href="#" class="nav-link px-2 text-secondary">Panel</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">About</a></li>
+                <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
@@ -53,6 +52,9 @@ if (empty($_SESSION["id"])) {
 
 
             </div>
+            <p class="username">  <?php
+                require "show_name.php";
+                ?></p>
         </div>
     </div>
 </header>
@@ -64,14 +66,8 @@ if (empty($_SESSION["id"])) {
             <h1 class=" border-bottom text-center">Hi
 
                 <?php
-                $query = "SELECT * FROM users WHERE id = '" . $_SESSION["id"] . "'";
-
-                $result = mysqli_query($conn, $query);
-
-                $row = mysqli_fetch_array($result);
-
-                echo $row["username"];
-                ?>!
+                    require "show_name.php";
+                ?>
 
             </h1>
 
@@ -348,6 +344,8 @@ if (empty($_SESSION["id"])) {
                     <td>Login</td>
                     <td>Password</td>
                     <td>Sign up date</td>
+                    <td>Edytuj</td>
+                    <td>Usuń</td>
     
 
                 </tr>';
