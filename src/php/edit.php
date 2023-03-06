@@ -76,6 +76,16 @@ $result = mysqli_query($conn, $query);
 
 
             </div>
+            <p class="username">  <?php
+
+
+
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
+                ?></p>
         </div>
     </div>
 </header>

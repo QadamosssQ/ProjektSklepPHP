@@ -34,9 +34,9 @@ $result = mysqli_query($conn, $query);
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="../../index.php" class="nav-link px-2 text-white">Home</a></li>
-                <li><a href="shop.php" class="nav-link px-2 text-white">Sklep</a></li>
-                <li><a href="panel.php" class="nav-link px-2 text-white">Panel</a></li>
-                <li><a href="cart.php" class="nav-link px-2 text-secondary">Cart</a></li>
+                <li><a href="../php/shop.php" class="nav-link px-2 text-white">Sklep</a></li>
+                <li><a href="../php/panel.php" class="nav-link px-2 text-white">Panel</a></li>
+                <li><a href="../php/cart.php" class="nav-link px-2 text-secondary">Cart</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
@@ -62,7 +62,11 @@ $result = mysqli_query($conn, $query);
 
             </div>
             <p class="username">  <?php
-                require "show_name.php";
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
                 ?></p>
         </div>
     </div>
@@ -99,32 +103,34 @@ $result = mysqli_query($conn, $query);
 <!--//--------------------------------------------------------------------------------------------------------->
                                 <?php
 
+                                print_r($_COOKIE["cart"]);
 
 
-                                echo '<div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img
-                                                            src="../img/sample.jpg"
-                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>Cessna 152</h5>
-                                                    <p class="small mb-0">Type: solo, Drive: propeller  </p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                         
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$8 000</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>';
+
+//                                echo '<div class="card mb-3">
+//                                    <div class="card-body">
+//                                        <div class="d-flex justify-content-between">
+//                                            <div class="d-flex flex-row align-items-center">
+//                                                <div>
+//                                                    <img
+//                                                            src="../img/sample.jpg"
+//                                                            class="img-fluid rounded-3" alt="Shopping item" style="width: 65px;">
+//                                                </div>
+//                                                <div class="ms-3">
+//                                                    <h5>Cessna 152</h5>
+//                                                    <p class="small mb-0">Type: solo, Drive: propeller  </p>
+//                                                </div>
+//                                            </div>
+//                                            <div class="d-flex flex-row align-items-center">
+//
+//                                                <div style="width: 80px;">
+//                                                    <h5 class="mb-0">$8 000</h5>
+//                                                </div>
+//                                                <a href="#!" style="color: #cecece;"><i class="fas fa-trash-alt"></i></a>
+//                                            </div>
+//                                        </div>
+//                                    </div>
+//                                </div>';
 
 
 ?>

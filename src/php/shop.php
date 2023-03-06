@@ -32,7 +32,12 @@ $result = mysqli_query($conn, $query);
                 <li><a href="../../index.php" class="nav-link px-2 text-white">Home</a></li>
                 <li><a href="" class="nav-link px-2 text-secondary">Sklep</a></li>
                 <li><a href="panel.php" class="nav-link px-2 text-white">Panel</a></li>
-                <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
+                <li><div class="dropdown nav-link px-2 text-white">
+                        <span>Cart</span>
+                        <div class="dropdown-content">
+                            <p>Hello World!</p>
+                        </div>
+                    </div></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
@@ -52,7 +57,11 @@ $result = mysqli_query($conn, $query);
 
             </div>
             <p class="username">  <?php
-                require "show_name.php";
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
                 ?></p>
         </div>
     </div>
@@ -97,11 +106,36 @@ $result = mysqli_query($conn, $query);
                         '</h4>
                     </div>
                     <h6 class="text-success mt-3">Free shipping</h6>
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button">Details</button><button class="btn btn-outline-dark btn-sm mt-2" type="button">Add to wishlist</button></div>
+                    <form method="post">
+                    <div class="d-flex flex-column mt-4"><button id="whow_page"  class="btn btn-primary btn-sm" type="button">Details</button><button type="submit" name="add_product_to_cart" id="add_to_cart" class="btn btn-outline-dark btn-sm mt-2" type="button">Add to wishlist</button></div>
+                    </form>
                 </div>
             </div>
 
+
+                
                 ';
+
+                    if(isset($add_product_to_cart)){
+
+                        $id_product = $wynik["id"];
+
+                        //add product to cart cookie
+
+                        if(isset($_COOKIE["cart"])){
+                            $_COOKIE["cart"] = $_COOKIE["cart"] . "," . $id_product;
+                        }else{
+                            $cart_data = array();
+
+                        }
+
+
+
+
+
+                    }
+
+
                 } ?>
 
 

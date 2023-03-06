@@ -3,6 +3,14 @@ require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");
 }
+
+//set cookie cart with array of products
+if (!isset($_COOKIE["cart"])) {
+    $cart = array();
+    setcookie("cart", serialize($cart), time() + (86400 * 30), "/");
+} else {
+    $cart = unserialize($_COOKIE["cart"]);
+}
 ?>
 
 
@@ -53,7 +61,11 @@ if (empty($_SESSION["id"])) {
 
             </div>
             <p class="username">  <?php
-                require "show_name.php";
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
                 ?></p>
         </div>
     </div>
@@ -66,7 +78,11 @@ if (empty($_SESSION["id"])) {
             <h1 class=" border-bottom text-center">Hi
 
                 <?php
-                    require "show_name.php";
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
                 ?>
 
             </h1>

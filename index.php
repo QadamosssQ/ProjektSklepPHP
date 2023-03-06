@@ -48,7 +48,14 @@
 
             </div>
             <p class="username">  <?php
-                require "src/php/show_name.php";
+
+
+
+
+                if(isset($result_show_username)){
+                    echo $result_show_username["username"];
+                }
+
                 ?></p>
         </div>
     </div>
