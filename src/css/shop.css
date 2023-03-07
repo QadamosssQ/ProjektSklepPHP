@@ -57,3 +57,34 @@
 p{
     color: #222222;
 }
+
+.invisible{
+    display: none;
+}
+
+
+.h3_error{
+
+    text-align: center;
+
+
+    color: #3b5998;
+    text-wrap: none;
+    font-size: 2em;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    text-shadow: #cccccc 0px 0px 10px;
+    background-color: #cccccc;
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 2%;
+
+    animation: blinker 1s linear 2 forwards;
+
+
+
+
+}

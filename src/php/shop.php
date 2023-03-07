@@ -5,6 +5,44 @@ require "conn.php";
 $query = "SELECT * FROM samoloty";
 
 $result = mysqli_query($conn, $query);
+
+
+
+// Check if product is coming or not
+if (isset($_GET['pro_id'])) {
+
+    $proid = $_GET['pro_id'];
+
+    // If session cart is not empty
+    if (!empty($_SESSION['cart'])) {
+
+        // Using "array_column() function" we get the product id existing in session cart array
+        $acol = array_column($_SESSION['cart'], 'pro_id');
+
+        // now we compare whther id already exist with "in_array() function"
+        if (in_array($proid, $acol)) {
+
+            // Updating quantity if item already exist
+            $_SESSION['cart'][$proid]['qty'] += 1;
+        } else {
+            // If item doesn't exist in session cart array, we add a new item
+            $item = [
+                'pro_id' => $_GET['pro_id'],
+                'qty' => 1
+            ];
+
+            $_SESSION['cart'][$proid] = $item;
+        }
+    } else {
+        // If cart is completely empty, then store item in session cart
+        $item = [
+            'pro_id' => $_GET['pro_id'],
+            'qty' => 1
+        ];
+
+        $_SESSION['cart'][$proid] = $item;
+    }
+}
 ?>
 
 
@@ -13,7 +51,7 @@ $result = mysqli_query($conn, $query);
     <link rel="stylesheet" href="../css/shop.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-
+    <script src="../js/shop.js"></script>
 
     <meta charset="UTF-8">
     <title>Title</title>
@@ -32,12 +70,7 @@ $result = mysqli_query($conn, $query);
                 <li><a href="../../index.php" class="nav-link px-2 text-white">Home</a></li>
                 <li><a href="" class="nav-link px-2 text-secondary">Sklep</a></li>
                 <li><a href="panel.php" class="nav-link px-2 text-white">Panel</a></li>
-                <li><div class="dropdown nav-link px-2 text-white">
-                        <span>Cart</span>
-                        <div class="dropdown-content">
-                            <p>Hello World!</p>
-                        </div>
-                    </div></li>
+                <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
@@ -51,7 +84,7 @@ $result = mysqli_query($conn, $query);
                 <?php if (empty($_SESSION["id"])) {
                     echo '<button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="login.php">Login</a> </button>';
                 } else {
-                    echo '<button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="logout.php">Logout</a> </button>';
+                    echo '<button type="button" class="btn btn-outline-light me-2"><a onclick="added()" class="login_button" href="logout.php">Logout</a> </button>';
                 } ?>
 
 
@@ -106,9 +139,10 @@ $result = mysqli_query($conn, $query);
                         '</h4>
                     </div>
                     <h6 class="text-success mt-3">Free shipping</h6>
-                    <form method="post">
-                    <div class="d-flex flex-column mt-4"><button id="whow_page"  class="btn btn-primary btn-sm" type="button">Details</button><button type="submit" name="add_product_to_cart" id="add_to_cart" class="btn btn-outline-dark btn-sm mt-2" type="button">Add to wishlist</button></div>
-                    </form>
+                    
+                    <div class="d-flex flex-column mt-4"><button id="whow_page"  class="btn btn-primary btn-sm" type="button">Details</button>
+                    <button class="btn btn-outline-dark btn-sm mt-2" type="button"><a onclick="add()" style="text-decoration: none" href="shop.php?pro_id='.$wynik["id"].'">Add to cart</a> </button></div>
+                    <h3 id="invisible" class="invisible">Added</h3>
                 </div>
             </div>
 
@@ -116,24 +150,8 @@ $result = mysqli_query($conn, $query);
                 
                 ';
 
-                    if(isset($add_product_to_cart)){
-
-                        $id_product = $wynik["id"];
-
-                        //add product to cart cookie
-
-                        if(isset($_COOKIE["cart"])){
-                            $_COOKIE["cart"] = $_COOKIE["cart"] . "," . $id_product;
-                        }else{
-                            $cart_data = array();
-
-                        }
 
 
-
-
-
-                    }
 
 
                 } ?>

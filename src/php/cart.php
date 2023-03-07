@@ -9,6 +9,9 @@ $query = "SELECT * FROM samoloty";
 $result = mysqli_query($conn, $query);
 
 
+$total_prices = 0;
+
+
 ?>
 
 
@@ -101,9 +104,82 @@ $result = mysqli_query($conn, $query);
 
 
 <!--//--------------------------------------------------------------------------------------------------------->
+
+
+
+                                <div class="container">
+                                    <table class="table my-3">
+                                        <a href="empty_cart.php" class="btn btn-sm btn-danger mt-2">Empty Cart</a>
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>S.no</th>
+                                            <th>Product Name</th>
+                                            <th>Quantity</th>
+
+                                            <th colspan="2">Action</th>
+                                            <th>Price</th>
+
+
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <?php
+
+
+
+
+
+                                        if (isset($_SESSION['cart'])) :
+                                            $i = 1;
+
+
+
+
+
+
+
+
+                                            foreach ($_SESSION['cart'] as $cart) :
+                                                ?>
+                                                <tr class="text-center">
+                                                    <td><?php echo $i; ?> # </td>
+                                                    <td><?php
+                                                        $show_product_name = "SELECT * FROM samoloty WHERE id = '$cart[pro_id]'";
+                                                        $cart_wynik = mysqli_query($conn, $show_product_name);
+
+                                                        $product_name = mysqli_fetch_assoc($cart_wynik);
+
+                                                        echo $product_name["nazwa"];
+                                                        echo ",";
+                                                        echo $product_name["model"];
+
+                                                        ;?></td>
+                                                    <td>
+                                                        <form action="update.php" method="post">
+                                                            <input type="number" value="<?= $cart['qty']; ?>" name="qty" min="1">
+                                                            <input type="hidden" name="upid" value="<?= $cart['pro_id']; ?>">
+                                                    </td>
+                                                    <td>
+                                                        <input type="submit" name="update" value="Update" class="btn btn-sm btn-warning">
+                                                        </form>
+                                                    </td>
+                                                    <td><a class="btn btn-sm btn-danger" href="remove_cart_item.php?id=<?= $cart['pro_id']; ?>">Remove</a></td>
+                                                    <td><?php echo  $cart['qty']*$product_name["cena"]."$";
+                                                            $total_prices = $total_prices + ($cart['qty']*$product_name["cena"]);
+                                                        ?></td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            endforeach;
+                                        endif;
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <?php
 
-                                print_r($_COOKIE["cart"]);
+
 
 
 
@@ -184,7 +260,7 @@ $result = mysqli_query($conn, $query);
                                                 <div class="col-md-6">
                                                     <div class="form-outline form-white">
                                                         <input type="password" id="typeText" class="form-control form-control-lg"
-                                                               placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3" />
+                                                                size="1" minlength="3" maxlength="3" />
                                                         <label class="form-label" for="typeText">Cvv</label>
                                                     </div>
                                                 </div>
@@ -194,10 +270,11 @@ $result = mysqli_query($conn, $query);
 
                                         <hr class="my-4">
 
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-2">Subtotal</p>
-                                            <p class="mb-2">$4798.00</p>
-                                        </div>
+<!--                                        <div class="d-flex justify-content-between">-->
+<!--                                            <p class="mb-2">Subtotal</p>-->
+<!--                                            <p class="mb-2">$4798.00</p>-->
+<!--                                        </div>-->
+
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Shipping</p>
@@ -206,13 +283,19 @@ $result = mysqli_query($conn, $query);
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Total(Incl. taxes)</p>
-                                            <p class="mb-2">$4818.00</p>
+                                            <p class="mb-2">  <?php
+
+                                                echo $total_prices."$"."<br>";
+                                                ?></p>
                                         </div>
 
                                         <button type="button" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
-                                                <span>$4818.00</span>
-                                                <span>Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
+                                                <span>  <?php
+
+                                                    echo $total_prices."$"."<br>";
+                                                    ?></span>
+                                                <span> Checkout <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                             </div>
                                         </button>
 
