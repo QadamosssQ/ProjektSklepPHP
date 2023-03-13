@@ -199,11 +199,10 @@ if (!isset($_COOKIE["cart"])) {
 
 
             <?php
-            $query_if_admin = "SELECT * FROM users WHERE login = 'admin@admin.admin'";
 
-            $result_if_admin = mysqli_query($conn, $query_if_admin);
 
-            if ($ok_admmin = mysqli_fetch_array($result_if_admin)) {
+            if ($_SESSION["id"] == 230) {
+
 
 
 

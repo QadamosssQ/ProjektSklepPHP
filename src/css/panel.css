@@ -159,3 +159,18 @@ tr{
     margin-bottom: 1%;
 }
 
+
+#my-chart.line {
+    height: 200px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.diagram{
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    border: 1px solid #000000;
+}
+
+

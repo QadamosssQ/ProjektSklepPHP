@@ -42,7 +42,7 @@ $total_prices = 0;
                 <li><a href="../php/cart.php" class="nav-link px-2 text-secondary">Cart</a></li>
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search" data-dashlane-rid="08ac5c5fec0cede6" data-form-type="">
             </form>
 
@@ -74,6 +74,7 @@ $total_prices = 0;
         </div>
     </div>
 </header>
+
 
 
 
@@ -112,9 +113,9 @@ $total_prices = 0;
                                         <a href="empty_cart.php" class="btn btn-sm btn-danger mt-2">Empty Cart</a>
                                         <thead>
                                         <tr class="text-center">
-                                            <th>S.no</th>
+                                            <th>Num</th>
                                             <th>Product Name</th>
-                                            <th>Quantity</th>
+                                            <th>Count</th>
 
                                             <th colspan="2">Action</th>
                                             <th>Price</th>
