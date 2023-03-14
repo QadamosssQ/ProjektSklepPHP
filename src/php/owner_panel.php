@@ -117,6 +117,71 @@ if (!isset($_COOKIE["cart"])) {
 
 
 
+    <div class="container border-top mt-5">
+        <h3 class="content_h3 mt-5 ">Products worth:</h3>
+        <h3 class="content_h3  "><?php
+            $sql = "SELECT SUM(cena*ilosc) as number FROM samoloty;";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo $row['number'];
+                }
+            }
+            ?>
+        $</h3>
+    </div>
+
+    <div class="container border-top mt-5">
+        <h3 class="content_h3 mt-5 ">Products:</h3>
+        <table>
+            <tr>
+                <td>Nazwa</td>
+                <td>Cena</td>
+                <td>Ilość</td>
+
+            </tr>
+
+
+                    <?php
+
+            $sql = "SELECT * FROM samoloty;";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo' <tr><td>  '.$row["nazwa"].' </td>
+                <td>  '.$row["cena"].'</td>
+                <td>  '.$row["ilosc"].'</td></tr>';
+            }
+
+            ?>
+
+        </table>
+    </div>
+
+    <div class="container border-top mt-5">
+        <h3 class="content_h3 mt-5 ">Users:</h3>
+        <h3 class="content_h3  ">            <?php
+            $sql = "SELECT COUNT(*) as number FROM users;";
+            $result = mysqli_query($conn, $sql);
+            $resultCheck = mysqli_num_rows($result);
+            if ($resultCheck > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo $row['number'];
+                }
+            }
+            ?></h3>
+    </div>
+
+
+
+
+
+
+
+
+
 
 
 

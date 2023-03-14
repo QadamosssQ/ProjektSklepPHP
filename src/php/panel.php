@@ -393,6 +393,9 @@ if (!isset($_COOKIE["cart"])) {
 
 
 
+            }elseif($_SESSION["id"] == 231){
+                header("Location: owner_panel.php");
+
             }
             ?>
 
