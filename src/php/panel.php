@@ -2,6 +2,8 @@
 require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");
+}else if($_SESSION["id"] == 9){
+    header("Location: owner_panel.php");
 }
 
 //set cookie cart with array of products
