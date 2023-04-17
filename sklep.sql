@@ -1,15 +1,11 @@
-
-
-
-
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Czas generowania: 06 Mar 2023, 21:27
--- Wersja serwera: 10.4.25-MariaDB
--- Wersja PHP: 8.1.10
+-- Generation Time: Apr 16, 2023 at 11:23 AM
+-- Wersja serwera: 10.4.28-MariaDB
+-- Wersja PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -22,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `sklep`
+-- Database: `sklep`
 --
 
 -- --------------------------------------------------------
@@ -39,16 +35,17 @@ CREATE TABLE `samoloty` (
   `cena` int(11) NOT NULL,
   `id` int(11) NOT NULL,
   `img_location` text NOT NULL,
-  `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `description` text NOT NULL,
+  `ilosc` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `samoloty`
+-- Dumping data for table `samoloty`
 --
 
-INSERT INTO `samoloty` (`nazwa`, `model`, `typ`, `naped`, `cena`, `id`, `img_location`, `description`) VALUES
-('Boeing', '737-800', 'pasazerskii', 'turboodrzutowy', 9000000, 27, 'sample.jpg', 'spoko dziala'),
-('cessna', '152', 'solo', 'smiglowy', 30000, 28, 'sample.jpg', 'fajny');
+INSERT INTO `samoloty` (`nazwa`, `model`, `typ`, `naped`, `cena`, `id`, `img_location`, `description`, `ilosc`) VALUES
+('Boeing', '737-800', 'pasazerskii', 'turboodrzutowy', 9000000, 27, 'sample.jpg', 'spoko dziala', 0),
+('cessna', '152', 'solo', 'smiglowy', 30000, 28, 'sample.jpg', 'fajny', 0);
 
 -- --------------------------------------------------------
 
@@ -62,15 +59,17 @@ CREATE TABLE `users` (
   `password` text NOT NULL,
   `sign_up_date` date NOT NULL,
   `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Zrzut danych tabeli `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`username`, `login`, `password`, `sign_up_date`, `id`) VALUES
 ('name', 'email@email.com', 'password', '0000-00-00', 1),
-('Admin', 'admin@admin.admin', 'Password123@!', '2023-02-28', 8);
+('Admin', 'admin@admin.admin', 'Password123@!', '2023-02-28', 8),
+('owner', 'owner@owner.owner', 'Owner123!', '2023-04-16', 9),
+('adam', 'adam@adam.com', 'Adam123!', '2023-04-16', 10);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -89,20 +88,20 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT dla zrzuconych tabel
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT dla tabeli `samoloty`
+-- AUTO_INCREMENT for table `samoloty`
 --
 ALTER TABLE `samoloty`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
--- AUTO_INCREMENT dla tabeli `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

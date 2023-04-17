@@ -1,4 +1,5 @@
 <?php
+global $conn;
 require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");
@@ -89,6 +90,8 @@ if (!isset($_COOKIE["cart"])) {
 
             </h1>
 
+
+
             <h3 id="to_remove" class="no_show">Product added</h3>
 
 
@@ -123,9 +126,7 @@ if (!isset($_COOKIE["cart"])) {
                 ';
 
             echo '<h3 class="content_h3">Change your password:</h3>';
-            echo '<input type="text" class="form-control" name="password" placeholder="' .
-                $row2["password"] .
-                '">';
+            echo '<input type="text" class="form-control" name="password">';
 
             echo '
                 <h3 id="error_show_password" class="no_show">Password: 8 chars, number, special, one uppercase</h3>
@@ -168,17 +169,14 @@ if (!isset($_COOKIE["cart"])) {
                 if (validate_password($edit_password) == false) {
                     show_error_password();
                 } else {
-                    $query_edit_password =
-                        "UPDATE users SET password = '$edit_password' WHERE id = '" .
-                        $_SESSION["id"] .
-                        "'";
-                    $result_edit_password = mysqli_query(
-                        $conn,
-                        $query_edit_password
-                    );
+                    $hashed_password = password_hash($edit_password, PASSWORD_DEFAULT);
+
+                    $query_edit_password = "UPDATE users SET password = '$hashed_password' WHERE id = '" . $_SESSION["id"] . "'";
+                    $result_edit_password = mysqli_query($conn, $query_edit_password);
                     header("Location: panel.php");
                 }
             }
+
             ?>
 
 
@@ -470,9 +468,9 @@ if (!isset($_COOKIE["cart"])) {
                             setTimeout(function(){ document.getElementById("error_show_password").classList.add("no_show");}, 3000);</script>';
                 }
 
+?>
 
 
-echo'
             </table>
 
 
@@ -486,67 +484,9 @@ echo'
     </div>
 </div>
 
-
-
-<div class="container border-top mt-5">
-    <footer class="py-5">
-        <div class="row">
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-
-            <div class="col-6 col-md-2 mb-3">
-                <h5>Section</h5>
-                <ul class="nav flex-column">
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Home</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Features</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">Pricing</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">FAQs</a></li>
-                    <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted">About</a></li>
-                </ul>
-            </div>
-
-            <div class="col-md-5 offset-md-1 mb-3">
-                <form data-dashlane-rid="1fb5382e33c39873" data-form-type="newsletter">
-                    <h5>Subscribe to our newsletter</h5>
-                    <p>Monthly digest of whats new and exciting from us.</p>
-                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                        <label for="newsletter1" class="visually-hidden">Email address</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address" data-dashlane-rid="3a8f59a54e38127f" data-form-type="email" data-kwimpalastatus="alive" data-kwimpalaid="1675159274093-0">
-                        <button class="btn btn-primary" type="button" data-dashlane-rid="8467e9ee5893e84b" data-dashlane-label="true" data-form-type="action,subscribe">Subscribe</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
-            <p>© 2022 Company, Inc. All rights reserved.</p>
-            <ul class="list-unstyled d-flex">
-                <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"></use></svg></a></li>
-                <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"></use></svg></a></li>
-                <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"></use></svg></a></li>
-            </ul>
-        </div>
-    </footer>
-</div>
+<?php
+require_once "footer.php";
+?>
 
 
 

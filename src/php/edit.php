@@ -1,4 +1,5 @@
 <?php
+global $conn;
 require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");

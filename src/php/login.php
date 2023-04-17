@@ -1,4 +1,5 @@
 <?php
+global $conn;
 require_once "conn.php"; ?>
 
 
@@ -129,26 +130,19 @@ if (isset($_POST["submit_sign_up"])) {
     } else {
 
         $query_check_if_exist = "SELECT * FROM users WHERE login = '$email'";
-
         $result = mysqli_query($conn, $query_check_if_exist);
-
-
-
-
-
-
-
 
         if (mysqli_num_rows($result) > 0) {
             user_exist_error();
-
         } else {
-            $query = "INSERT INTO users (username, login, password, sign_up_date) VALUES ('$name', '$email', '$password', '$date')";
+            // hash password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
+            $query = "INSERT INTO users (username, login, password, sign_up_date) VALUES ('$name', '$email', '$hashed_password', '$date')";
             $result_insert = mysqli_query($conn, $query);
 
             if ($result_insert) {
-                $query_l = "SELECT id FROM users WHERE login = '$email' AND password = '$password'";
+                $query_l = "SELECT id FROM users WHERE login = '$email' AND password = '$hashed_password'";
                 $result = mysqli_query($conn, $query_l);
                 $final = mysqli_fetch_array($result);
                 $_SESSION["id"] = $final["id"];
@@ -167,25 +161,30 @@ if (isset($_POST["submit_sign_in"])) {
 
     if (validate_email($email_login) != true) {
         show_error_mail();
-    } elseif (validate_password($password_login) != true) {
-        show_error_password();
     } else {
-        $query_login = "SELECT id FROM users WHERE login = '$email_login' AND password = '$password_login'";
+        $query_login = "SELECT id, password FROM users WHERE login = '$email_login'";
 
         $result_login = mysqli_query($conn, $query_login);
 
-        //check if user exist
+        // check if user exists
 
         if (mysqli_num_rows($result_login) > 0) {
             $final2 = mysqli_fetch_array($result_login);
-            $_SESSION["id"] = $final2["id"];
+            $hashed_password = $final2["password"];
 
-            echo '<script>setTimeout(function(){window.location.href = "panel.php";}, 1);</script>';
+            // verify password
+            if (password_verify($password_login, $hashed_password)) {
+                $_SESSION["id"] = $final2["id"];
+                echo '<script>setTimeout(function(){window.location.href = "panel.php";}, 1);</script>';
+            } else {
+                wrong_password_login();
+            }
         } else {
             wrong_password_login();
         }
     }
 }
+
 
 function wrong_password_login()
 {
@@ -299,3 +298,4 @@ function user_exist_error()
                             
                             setTimeout(function(){ document.getElementById("error_show_exist").classList.add("no_show");}, 3000);</script>';
 }
+

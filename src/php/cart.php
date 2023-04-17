@@ -1,5 +1,6 @@
 <?php
 
+global $conn;
 require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");
@@ -125,6 +126,7 @@ $total_prices = 0;
                                         </thead>
 
                                         <tbody>
+
                                         <?php
 
 
@@ -133,11 +135,6 @@ $total_prices = 0;
 
                                         if (isset($_SESSION['cart'])) :
                                             $i = 1;
-
-
-
-
-
 
 
 
@@ -175,6 +172,7 @@ $total_prices = 0;
                                             endforeach;
                                         endif;
                                         ?>
+
                                         </tbody>
                                     </table>
                                 </div>
@@ -224,18 +222,8 @@ $total_prices = 0;
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between align-items-center mb-4">
                                             <h5 class="mb-0">Card details</h5>
-                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                                                 class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
-                                        </div>
 
-                                        <p class="small mb-2">Card type</p>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                    class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                    class="fab fa-cc-visa fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                    class="fab fa-cc-amex fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i class="fab fa-cc-paypal fa-2x"></i></a>
+                                        </div>
 
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
@@ -261,7 +249,7 @@ $total_prices = 0;
                                                 <div class="col-md-6">
                                                     <div class="form-outline form-white">
                                                         <input type="password" id="typeText" class="form-control form-control-lg"
-                                                                size="1" minlength="3" maxlength="3" />
+                                                                size="1" minlength="3" maxlength="3" placeholder="123"/>
                                                         <label class="form-label" for="typeText">Cvv</label>
                                                     </div>
                                                 </div>
@@ -271,10 +259,7 @@ $total_prices = 0;
 
                                         <hr class="my-4">
 
-<!--                                        <div class="d-flex justify-content-between">-->
-<!--                                            <p class="mb-2">Subtotal</p>-->
-<!--                                            <p class="mb-2">$4798.00</p>-->
-<!--                                        </div>-->
+
 
 
                                         <div class="d-flex justify-content-between">
@@ -315,7 +300,9 @@ $total_prices = 0;
 </section>
 
 
-
+<?php
+include_once "footer.php";
+?>
 
 </body>
 </html>
