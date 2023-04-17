@@ -1,6 +1,6 @@
 <?php
 
-//ok
+
 global $conn;
 require_once "conn.php"; ?>
 
