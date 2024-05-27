@@ -201,7 +201,7 @@ if (!isset($_COOKIE["cart"])) {
             <?php
 
 
-            if ($_SESSION["id"] == 230) {
+            if ($_SESSION["id"] == 10) {
 
 
 

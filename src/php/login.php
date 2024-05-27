@@ -1,9 +1,18 @@
 <?php
-
-
 global $conn;
-require_once "conn.php"; ?>
+require_once "conn.php";
 
+// CSRF token generation and verification
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf_token'])) {
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
+        die('Invalid CSRF token');
+    }
+}
+?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -18,9 +27,6 @@ require_once "conn.php"; ?>
         <title>Title</title>
     </head>
     <body>
-
-
-
     <header class="p-3 text-bg-dark fixed-top">
         <div class="containe">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -34,30 +40,12 @@ require_once "conn.php"; ?>
                     <li><a href="#" class="nav-link px-2 text-secondary">Panel</a></li>
                     <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
                 </ul>
-
-
-
                 <div class="text-end">
-
-
-
-
-
-
-
-
-
                 </div>
             </div>
         </div>
     </header>
-
-
-
-
     <div class="main">
-
-
         <div class="container" id="container">
             <div class="form-container sign-up-container">
                 <form  method="POST">
@@ -95,22 +83,18 @@ require_once "conn.php"; ?>
                     </div>
                 </div>
             </div>
-
-
-        <footer>
-            <p>
-                Do you want  <i class="fa fa-heart"></i>
-                <a target="_blank" href="https://florin-pop.com">newsteller</a>
-                - be up to date with the latest news?
-                <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-            </p>
-        </footer>
-    </div>
-
-    <script src="../js/login.js"></script>
+            <footer>
+                <p>
+                    Do you want  <i class="fa fa-heart"></i>
+                    <a target="_blank" href="https://florin-pop.com">newsteller</a>
+                    - be up to date with the latest news?
+                    <a target="_blank" href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
+                </p>
+            </footer>
+        </div>
+        <script src="../js/login.js"></script>
     </body>
     </html>
-
 
 <?php
 if (isset($_POST["submit_sign_up"])) {
@@ -119,37 +103,34 @@ if (isset($_POST["submit_sign_up"])) {
     $password = $_POST["password"];
     $date = date("Y-m-d H:i:s");
 
-    validate_name($name);
-    validate_email($email);
-    validate_password($password);
-
-    if (validate_name($name) != true) {
+    if (!validate_name($name)) {
         show_error_name();
-    } elseif (validate_email($email) != true) {
+    } elseif (!validate_email($email)) {
         show_error_mail();
-    } elseif (validate_password($password) != true) {
+    } elseif (!validate_password($password)) {
         show_error_password();
     } else {
+        $query_check_if_exist = $conn->prepare("SELECT * FROM users WHERE login = ?");
+        $query_check_if_exist->bind_param("s", $email);
+        $query_check_if_exist->execute();
+        $result = $query_check_if_exist->get_result();
 
-        $query_check_if_exist = "SELECT * FROM users WHERE login = '$email'";
-        $result = mysqli_query($conn, $query_check_if_exist);
-
-        if (mysqli_num_rows($result) > 0) {
+        if ($result->num_rows > 0) {
             user_exist_error();
         } else {
-            // hash password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-            $query = "INSERT INTO users (username, login, password, sign_up_date) VALUES ('$name', '$email', '$hashed_password', '$date')";
-            $result_insert = mysqli_query($conn, $query);
-
-            if ($result_insert) {
-                $query_l = "SELECT id FROM users WHERE login = '$email' AND password = '$hashed_password'";
-                $result = mysqli_query($conn, $query_l);
-                $final = mysqli_fetch_array($result);
+            $stmt = $conn->prepare("INSERT INTO users (username, login, password, sign_up_date) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $name, $email, $hashed_password, $date);
+            if ($stmt->execute()) {
+                $query_l = $conn->prepare("SELECT id FROM users WHERE login = ?");
+                $query_l->bind_param("s", $email);
+                $query_l->execute();
+                $result = $query_l->get_result();
+                $final = $result->fetch_assoc();
                 $_SESSION["id"] = $final["id"];
-
                 echo '<script>setTimeout(function(){window.location.href = "panel.php";}, 1);</script>';
+            } else {
+                error();
             }
         }
     }
@@ -161,20 +142,17 @@ if (isset($_POST["submit_sign_in"])) {
     $email_login = $_POST["email_login"];
     $password_login = $_POST["password_login"];
 
-    if (validate_email($email_login) != true) {
+    if (!validate_email($email_login)) {
         show_error_mail();
     } else {
-        $query_login = "SELECT id, password FROM users WHERE login = '$email_login'";
+        $query_login = $conn->prepare("SELECT id, password FROM users WHERE login = ?");
+        $query_login->bind_param("s", $email_login);
+        $query_login->execute();
+        $result_login = $query_login->get_result();
 
-        $result_login = mysqli_query($conn, $query_login);
-
-        // check if user exists
-
-        if (mysqli_num_rows($result_login) > 0) {
-            $final2 = mysqli_fetch_array($result_login);
+        if ($result_login->num_rows > 0) {
+            $final2 = $result_login->fetch_assoc();
             $hashed_password = $final2["password"];
-
-            // verify password
             if (password_verify($password_login, $hashed_password)) {
                 $_SESSION["id"] = $final2["id"];
                 echo '<script>setTimeout(function(){window.location.href = "panel.php";}, 1);</script>';
@@ -187,117 +165,69 @@ if (isset($_POST["submit_sign_in"])) {
     }
 }
 
-
-function wrong_password_login()
-{
+function wrong_password_login() {
     echo '<script>
-
-    
-                                document.getElementById("error_show2").classList.remove("no_show");
-                                document.getElementById("error_show2").classList.add("exist2"); 
-                                
-                                setTimeout(function(){ document.getElementById("error_show2").classList.add("no_show");}, 3000);
-                                
-                                
-            </script>';
+            document.getElementById("error_show2").classList.remove("no_show");
+            document.getElementById("error_show2").classList.add("exist2");            
+            setTimeout(function(){ document.getElementById("error_show2").classList.add("no_show");}, 3000);        
+          </script>';
 }
 
-function error()
-{
-    //    header("Location: ../php/login.php");
-    echo "error z error";
+function error() {
+    echo "An error occurred. Please try again later.";
 }
 
-function validate_email($email)
-{
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        //        echo "<h3 class='h3_error'>Only normal email</h3>";
-        return false;
-    } else {
-        return true;
-    }
+function validate_email($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
-function validate_password($password)
-{
+function validate_password($password) {
     $uppercase = preg_match("@[A-Z]@", $password);
     $lowercase = preg_match("@[a-z]@", $password);
     $number = preg_match("@[0-9]@", $password);
     $specialChars = preg_match("@[^\w]@", $password);
 
-    if (
-        !$uppercase ||
-        !$lowercase ||
-        !$number ||
-        !$specialChars ||
-        strlen($password) < 8
-    ) {
-        //        echo "<h3 class='h3_error'>Password: 8 characters length, big letter , number,  special char.</h3>";
-        return false;
-    } else {
-        return true;
-    }
+    return $uppercase && $lowercase && $number && $specialChars && strlen($password) >= 8;
 }
 
 function validate_name($name)
 {
-    if (!preg_match("/^[a-zA-Z]*$/", $name)) {
-        //        echo "<h3 class='h3_error'>Only lettes!</h3>";
-        return false;
-    } else {
-        return true;
-    }
+    return preg_match("/^[a-zA-Z]*$/", $name);
 }
 
-function show_error_mail()
-{
+function show_error_mail() {
     echo "<h3 id='error_show_mail' class='no_show'>Wrong email!</h3>";
-
     echo '<script>
-
-                            document.getElementById("error_show_mail").classList.remove("no_show");
-                            document.getElementById("error_show_mail").classList.add("h3_error");
-
-
-
-                            setTimeout(function(){ document.getElementById("error_show_mail").classList.add("no_show");}, 3000);</script>';
+document.getElementById("error_show_mail").classList.remove("no_show");
+document.getElementById("error_show_mail").classList.add("h3_error");
+setTimeout(function(){ document.getElementById("error_show_mail").classList.add("no_show");}, 3000);
+</script>';
 }
 
-function show_error_name()
-{
-    echo "<h3 id='error_show_name' class='no_show'>Only lettes in name!</h3>";
-
+function show_error_name() {
+    echo "<h3 id='error_show_name' class='no_show'>Only letters in the name!</h3>";
     echo '<script>
-
-                            document.getElementById("error_show_name").classList.remove("no_show");
-                            document.getElementById("error_show_name").classList.add("h3_error");
-
-
-
-                            setTimeout(function(){ document.getElementById("error_show_name").classList.add("no_show");}, 3000);</script>';
+document.getElementById("error_show_name").classList.remove("no_show");
+document.getElementById("error_show_name").classList.add("h3_error");
+setTimeout(function(){ document.getElementById("error_show_name").classList.add("no_show");}, 3000);
+</script>';
 }
 
-function show_error_password()
-{
-    echo "<h3 id='error_show_password' class='no_show'>Password: 8 chars, number, special, one uppercase</h3>";
-
+function show_error_password() {
+    echo "<h3 id='error_show_password' class='no_show'>Password should contain at least 8 characters, including uppercase, lowercase, numbers, and special characters.</h3>";
     echo '<script>
-
-                            document.getElementById("error_show_password").classList.remove("no_show");
-                            document.getElementById("error_show_password").classList.add("h3_error");
-                            
-                            setTimeout(function(){ document.getElementById("error_show_password").classList.add("no_show");}, 3000);</script>';
+document.getElementById("error_show_password").classList.remove("no_show");
+document.getElementById("error_show_password").classList.add("h3_error");
+setTimeout(function(){ document.getElementById("error_show_password").classList.add("no_show");}, 3000);
+</script>';
 }
 
-function user_exist_error()
-{
-    echo "<h3 id='error_show_exist' class='no_show'>User exist!</h3>";
-
+function user_exist_error() {
+    echo "<h3 id='error_show_exist' class='no_show'>User already exists!</h3>";
     echo '<script>
-
-                            document.getElementById("error_show_exist").classList.remove("no_show");
-                            document.getElementById("error_show_exist").classList.add("h3_error");
-                            
-                            setTimeout(function(){ document.getElementById("error_show_exist").classList.add("no_show");}, 3000);</script>';
+document.getElementById("error_show_exist").classList.remove("no_show");
+document.getElementById("error_show_exist").classList.add("h3_error");
+setTimeout(function(){ document.getElementById("error_show_exist").classList.add("no_show");}, 3000);
+</script>';
 }
-
+?>

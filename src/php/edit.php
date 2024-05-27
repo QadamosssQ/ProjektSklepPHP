@@ -10,16 +10,6 @@ $query = "SELECT * FROM samoloty";
 $result = mysqli_query($conn, $query);
 ?>
 
-
-
-
-
-
-
-
-?>
-
-
 <html lang="en">
 <head>
     <link rel="stylesheet" href="../css/panel.css">
@@ -71,16 +61,8 @@ $result = mysqli_query($conn, $query);
                 $row_edit = mysqli_fetch_assoc($result_edit);
                 ?>
 
-
-
-
-
-
             </div>
             <p class="username">  <?php
-
-
-
 
                 if(isset($result_show_username)){
                     echo $result_show_username["username"];
@@ -134,9 +116,6 @@ $result = mysqli_query($conn, $query);
                     '"  class="inp" type="number" name="n_price"></h5>
                         </div>
                         <div class="d-flex flex-column mt-4"><input type="submit" name="n_submit" class="btn btn-dark btn-sm" value="Edit this product" ></div>
-
-
-
 
                     </div>
                 </div>
@@ -218,21 +197,6 @@ $result = mysqli_query($conn, $query);
                     echo '<script>setTimeout(function(){window.location.href = "panel.php";}, 1);</script>';
                 } ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div class="container border-top mt-5">
                     <footer class="py-5">
                         <div class="row">
@@ -292,13 +256,6 @@ $result = mysqli_query($conn, $query);
                         </div>
                     </footer>
                 </div>
-
-
-
-
-
-
-
 
 </body>
 </html>
