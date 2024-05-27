@@ -8,4 +8,3 @@ if (isset($_GET['id'])) {
     header("location: cart.php");
 }
 
-;?>

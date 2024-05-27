@@ -3,11 +3,10 @@ global $conn;
 require "conn.php";
 if (empty($_SESSION["id"])) {
     header("Location: login.php");
-}else if($_SESSION["id"] == 9){
+}else if($_SESSION["id"] == 1){
     header("Location: owner_panel.php");
 }
 
-//set cookie cart with array of products
 if (!isset($_COOKIE["cart"])) {
     $cart = array();
     setcookie("cart", serialize($cart), time() + (86400 * 30), "/");
@@ -57,11 +56,6 @@ if (!isset($_COOKIE["cart"])) {
                     echo '<button type="button" class="btn btn-outline-light me-2"><a class="login_button" href="login.php">Login</a> </button>';
                 } ?>
 
-
-
-
-
-
             </div>
             <p class="username">  <?php
 
@@ -89,17 +83,9 @@ if (!isset($_COOKIE["cart"])) {
                 ?>
 
             </h1>
-
-
-
             <h3 id="to_remove" class="no_show">Product added</h3>
 
-
-
             <h3 class="content_h3">Change your name here:</h3>
-
-
-
 
 
             <?php
@@ -177,42 +163,10 @@ if (!isset($_COOKIE["cart"])) {
                 }
             }
 
-            ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <?php
-
-
             if ($_SESSION["id"] == 10) {
 
-
-
-
                 echo '
-                
-                
-                
-                
-                
-                
+
             <h3 class="  mt-5 content_h3">Change or add products:</h3>
 
 
@@ -235,21 +189,8 @@ if (!isset($_COOKIE["cart"])) {
                             <h5 class="price_n mt-4  ">Price $ <input required="required" class="inp" type="number" name="n_price"></h5>
                         </div>
                         <div class="d-flex flex-column mt-4"><input type="submit" name="n_submit" class="btn btn-dark btn-sm" value="Add new product" ></div>
-
-
-
-                
-                
-                
-                
-                
-                
-                
                 
                 ';
-
-
-
 
 
                 if (isset($_POST["n_submit"])) {
@@ -287,31 +228,13 @@ if (!isset($_COOKIE["cart"])) {
                     }
                 }
 
-
-
-
-
                 echo'
-                
 
                     </div>
                 </div>
 
 
             </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             <h3 class="content_h3 mt-10 ">Edit products</h3>
@@ -399,21 +322,6 @@ if (!isset($_COOKIE["cart"])) {
             }
             ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <?php
 
 
@@ -470,15 +378,7 @@ if (!isset($_COOKIE["cart"])) {
 
 ?>
 
-
             </table>
-
-
-
-
-
-
-
 
         </div>
     </div>
@@ -487,9 +387,6 @@ if (!isset($_COOKIE["cart"])) {
 <?php
 require_once "footer.php";
 ?>
-
-
-
 
 </body>
 </html>';

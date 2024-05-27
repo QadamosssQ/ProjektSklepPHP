@@ -1,10 +1,20 @@
 <?php
-session_start();
+
 require_once "conn.php";
 
-$query = "SELECT * FROM samoloty";
-$result = mysqli_query($conn, $query);
+// Set default sorting order
+$order = "ASC";
+if (isset($_GET['order']) && ($_GET['order'] == 'ASC' || $_GET['order'] == 'DESC')) {
+    $order = $_GET['order'];
+}
 
+// Fetch data from database with sorting using stored procedure
+$stmt = $conn->prepare("CALL GetSamolotySortedByPrice(?)");
+$stmt->bind_param("s", $order);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Handle adding to cart
 if (isset($_GET['pro_id'])) {
     $proid = $_GET['pro_id'];
 
@@ -38,22 +48,22 @@ if (isset($_GET['pro_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     <script src="../js/shop.js"></script>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Shop</title>
 </head>
 <body>
 <header class="p-3 text-bg-dark fixed-top">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                 <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="../../index.php" class="nav-link px-2 text-white">Home</a></li>
-                <li><a href="" class="nav-link px-2 text-secondary">Sklep</a></li>
+                <li><a href="#" class="nav-link px-2 text-secondary">Shop</a></li>
                 <li><a href="panel.php" class="nav-link px-2 text-white">Panel</a></li>
                 <li><a href="cart.php" class="nav-link px-2 text-white">Cart</a></li>
             </ul>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" data-dashlane-rid="b0ad484f5a24ee6d" data-form-type="">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
                 <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
             </form>
             <div class="text-end">
@@ -67,8 +77,8 @@ if (isset($_GET['pro_id'])) {
             </div>
             <p class="username">
                 <?php
-                if (isset($result_show_username)) {
-                    echo $result_show_username["username"];
+                if (isset($_SESSION['username'])) {
+                    echo $_SESSION['username'];
                 }
                 ?>
             </p>
@@ -81,6 +91,17 @@ if (isset($_GET['pro_id'])) {
         <div class="d-flex justify-content-center row">
             <div class="col-md-10">
                 <h3 id="invisible" class="invisible">Added</h3>
+
+                <!-- Sorting Dropdown -->
+                <div class="mb-3">
+                    <form method="GET" action="shop.php">
+                        <label for="sort">Sort by Price:</label>
+                        <select id="sort" name="order" onchange="this.form.submit()">
+                            <option value="ASC" <?php if ($order == 'ASC') echo 'selected'; ?>>Low to High</option>
+                            <option value="DESC" <?php if ($order == 'DESC') echo 'selected'; ?>>High to Low</option>
+                        </select>
+                    </form>
+                </div>
 
                 <?php while ($wynik = mysqli_fetch_assoc($result)) : ?>
                     <div id="card_border" class="mt-2 row p-2">
